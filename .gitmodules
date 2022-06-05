@@ -1,0 +1,3 @@
+[submodule "publikationstatistiken"]
+	path = publikationstatistiken
+	url = https://bhargav-vankayalapati@bitbucket.org/ls8-tudo/publikationsstatistiken.git
