@@ -1,5 +1,41 @@
 -This project can use the pulicationStatistik project as a submodule to download the sfb.bib file and to compare the sfb.bib to the references in pdf file.
--clean function in publicationstatistik/bibHandler.py does not work and need help resolving this.
 -reference style used for the phase pdf? Some records miss the author names when converting from txt to bib.
 -There are some peer-reviewed publications which are of type thesis. These could not be converted by the bibtexparser.
 -Is there a standard link where the pdf exists? So that they can be downloaded everytime or they should be downloaded manually into the project folder.
+
+sfb8.bib
+Index(['idCode', 'year', 'number', 'note', 'month', 'institution', 'title',
+       'author', 'ENTRYTYPE', 'ID', 'booktitle', 'address', 'howpublished',
+       'volume', 'pages', 'journal', 'keywords', 'url', 'projekt', 'rating',
+       'sfbauthors', 'ls8authoren', 'publisher', 'isbn', 'editor', 'series',
+       'school', 'abstract', 'topics', 'organization', 'standort', 'type',
+       'bibl', 'chapter', 'crossref', 'edition', 'ls8note', 'doi', 'ls8url',
+       'annote', 'category', 'projekte', 'issn', 'self', 'key', 'abstracturl',
+       'label'],
+      dtype='object')
+
+core.bib
+Index(['index', 'Title', 'Acronym', 'Source', 'Rank', 'hasData', 'Primary FoR',
+       'Comments', 'AverageRating'],
+      dtype='object')
+
+sfb.bib
+Index(['idCode', 'year', 'number', 'note', 'month', 'institution', 'title',
+       'author', 'ENTRYTYPE', 'ID', 'booktitle', 'address', 'howpublished',
+       'volume', 'pages', 'journal', 'keywords', 'url', 'projekt', 'rating',
+       'sfbauthors', 'ls8authoren', 'publisher', 'isbn', 'editor', 'series',
+       'school', 'abstract', 'topics', 'organization', 'standort', 'type',
+       'bibl', 'chapter', 'crossref', 'edition', 'ls8note', 'doi', 'ls8url',
+       'annote', 'category', 'projekte', 'issn', 'self', 'key', 'abstracturl',
+       'label'],
+      dtype='object')
+
+pdf.bib
+Index(['address', 'language', 'pages', 'date', 'publisher', 'booktitle',
+       'title', 'author', 'ENTRYTYPE', 'idCode', 'editor', 'unmatched-author',
+       'note', 'number', 'volume', 'journal', 'unmatched-volume',
+       'unmatched-journal', 'source', 'institution', 'type', 'event',
+       'more-authors', 'organization', 'edition', 'unknown',
+       'unmatched-booktitle', 'url', 'unmatched-publisher', 'unmatched-pages',
+       'medium', 'director', 'producer'],
+      dtype='object')
