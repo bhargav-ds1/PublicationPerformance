@@ -1,1 +1,5 @@
 /.idea/*
+/logs/*
+config.json
+dump.json
+
