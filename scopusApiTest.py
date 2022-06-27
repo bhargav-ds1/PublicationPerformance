@@ -56,9 +56,9 @@ class ScopusApiTest(Handler):
     def get_titles(self):
         # to get titles from the two Phase pdf's and the literature.bib file.
         #extract titles from the literature.bib file
-        bibH = BibHandler(self.settings_path)
-        bibH.download_literatur()
-        with open(os.path.dirname(self.settings_path)+'/literatur.bib','r') as bibtexfile:
+        #bibH = BibHandler(self.settings_path)
+        #bibH.download_literatur()
+        with open('./literatur.bib','r') as bibtexfile:
             file = bibtexfile.read()
             file = file.split('}\n')
             file = list(filter(lambda a: 'SFB' in a or 'sfb' in a,file))
@@ -68,7 +68,7 @@ class ScopusApiTest(Handler):
             titles = list(map(lambda a:LatexNodes2Text().latex_to_text(a),titles))
             titles = list(map(lambda a:re.sub(' +',' ',a),titles))
             self.titles.extend(titles)
-            print(len(self.titles))
+            #print(len(self.titles))
         # extract titles from reference text from pdf's using regex
         li = []
         liNA = []
@@ -100,14 +100,20 @@ class ScopusApiTest(Handler):
                             liNA.append(ref)
         #self.get_titles_scholary_api(li,liNA)
         self.titles.extend(li)
+        self.titles = list(map(lambda a:LatexNodes2Text().latex_to_text(a),self.titles))
+        self.titles = list(map(lambda a:re.sub('\x0c','',a) if re.search('\x0c',a) else a,self.titles))
         #removing duplicate titles
         self.titles = list(OrderedDict.fromkeys(self.titles))
-        print(len(self.titles))
+        #print(len(self.titles))
 
 
 
     def scopus_get(self):
         self.get_titles()
+        if os.path.exists('scopus-results'+str(len(self.titles))+'.csv'):
+            df = pd.read_csv('scopus-results'+str(len(self.titles))+'.csv')
+            df = df.drop(['Unnamed: 0'],axis=1)
+            return df
         #print(*self.titles,sep='\n')
         ## Initialize scopus client
         self.client = ElsClient(self.config['apikey'])
