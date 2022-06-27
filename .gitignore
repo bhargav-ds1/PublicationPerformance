@@ -1,5 +1,9 @@
 /.idea/*
 /logs/*
+/__pycache__/*
 config.json
 dump.json
+scholar.py
+scholarly-test.py
+semscholar.py
 

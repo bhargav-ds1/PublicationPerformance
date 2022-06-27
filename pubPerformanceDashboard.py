@@ -1,14 +1,17 @@
 from dash import Dash, dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input
+from dash_bootstrap_templates import load_figure_template
 import pandas as pd
 import plotly.express as px
 
 class Dashboard:
     def __init__(self,df):
         self.df = df
+        dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.4/dbc.min.css"
         BS = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        self.app = Dash(__name__,external_stylesheets = [dbc.themes.CYBORG])
+        self.app = Dash(__name__,external_stylesheets = [dbc.themes.CYBORG,dbc_css])
+        load_figure_template(['cyborg','minty','superhero','materia'])
         self.app.layout = self.get_layout()
         self.app.callback(
         Output(component_id='bar-graph', component_property='figure'),
@@ -42,7 +45,8 @@ class Dashboard:
             filtered_df = filtered_df
 
         bar_fig = px.bar(filtered_df,x='dc:title',y='citedby-count',labels={'citedby-count':'Number of citations',
-                                                               'dc:title':'Publications'})
+                                                               'dc:title':'Publications'},template='materia',
+                         color_discrete_sequence=['darkblue']*len(filtered_df))
         #bar_fig.update_traces(width = 2)
         bar_fig.update_layout(
                 title={'text': f'Citation counts of {filtered_df.shape[0]} publications published in year {text}',
@@ -51,12 +55,19 @@ class Dashboard:
                         'xanchor': 'center',
                         'yanchor': 'top'},
                 xaxis={'showticklabels':False},hovermode='x',bargap = 0.5)
+
+        bar_fig.update_xaxes(
+                showgrid=False,
+                ticks="outside",
+                ticklen=4
+                )
+
         table = dbc.Table.from_dataframe(filtered_df[['dc:title','dc:creator',
                                                       'prism:coverDate','prism:doi',
                                                       'citedby-count']].rename(
             columns = {'dc:title':'Title','dc:creator':'First Author','prism:coverDate':'Date','prism:doi':'DOI',
                        'citedby-count':'citedby-count'}
-        ), striped=True, bordered=True, hover=True)
+        ), striped=True, bordered=True, hover=True, class_name = ['table-striped','table-hover'])
         return bar_fig,table
 
     def get_layout(self):
@@ -78,12 +89,13 @@ class Dashboard:
 
 
         return html.Div(children=[
-            html.H1(children='Publication Performance based on number of citations.'),
+            html.H2(children=['Publication Performance', html.Small(children=' based on number of citations.',
+                                                                    className='text-muted')],style={'text-align':"center"}),
             year_dropdown,
             select_dropdown,
             dcc.Graph(id='bar-graph'),
             html.Div(id='table-container')
-        ])
+        ],className='dbc')
 # Run local server
 if __name__ == '__main__':
     db=Dashboard()
